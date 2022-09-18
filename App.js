@@ -4,6 +4,7 @@ import * as Location from 'expo-location';
 import {useEffect} from "react";
 import {useState} from "react";
 import ShowMeteo from "./ShowMeteo";
+import Datetime from "./Datetime";
 
 
 export default function App() {
@@ -40,15 +41,23 @@ export default function App() {
 //console.log(data.sys.country);
     if (data && data.main && data.weather && data.sys) {
         let imgUrl = "https://openweathermap.org/img/wn/" + data.weather[0].icon + ".png";
-        console.log(imgUrl);
         return ( <View style = { styles.container } >
                     <ImageBackground source={img} style = { styles.imagebackground } >
                         <Text style={ styles.title}>Météo</Text>
+                        <Datetime/>
                         <StatusBar style = "auto" />
                         <ShowMeteo country={data.sys.country} temp={data.main && data.main.temp} tempMin={data.main && data.main.temp_min} tempMax={data.main && data.main.temp_max} humidity={data.main && data.main.humidity}
                          city={data && data.name} img={ imgUrl} weatherDescription={data.weather[0].description}/>
                     </ImageBackground>
                 </View>
+        );
+    } else{
+        return (
+            <View style = { styles.container } >
+            <ImageBackground source={img} style = { styles.imagebackground } >
+                <Text style={ styles.title}>Météo</Text>
+            </ImageBackground>
+        </View>
         );
     }
 
