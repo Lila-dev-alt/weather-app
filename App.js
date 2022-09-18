@@ -38,16 +38,17 @@ export default function App() {
     //weather.description
 
 //console.log(data.sys.country);
-    if (data && data.main && data.weather) {
-        let imgUrl = 'https://openweathermap.org/img/wn/' + data.weather[0].icon + '.png';
+    if (data && data.main && data.weather && data.sys) {
+        let imgUrl = "https://openweathermap.org/img/wn/" + data.weather[0].icon + ".png";
         console.log(imgUrl);
-        return ( <
-                View style = { styles.container } >
-                <Text>Météo</Text>
-                <StatusBar style = "auto" />
-                <ShowMeteo country={data && data.country} temp={data.main && data.main.temp} tempMin={data.main && data.main.temp_min} tempMax={data.main && data.main.temp_max} humidity={data.main && data.main.humidity}
-                           city={data && data.name} img={ imgUrl}/>
-            </View>
+        return ( <View style = { styles.container } >
+                    <ImageBackground source={img} style = { styles.imagebackground } >
+                        <Text style={ styles.title}>Météo</Text>
+                        <StatusBar style = "auto" />
+                        <ShowMeteo country={data.sys.country} temp={data.main && data.main.temp} tempMin={data.main && data.main.temp_min} tempMax={data.main && data.main.temp_max} humidity={data.main && data.main.humidity}
+                         city={data && data.name} img={ imgUrl} weatherDescription={data.weather[0].description}/>
+                    </ImageBackground>
+                </View>
         );
     }
 
@@ -56,8 +57,15 @@ export default function App() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
     },
+    imagebackground: {
+        flex: 1,
+        resizeMode: "cover",
+        justifyContent: "center",
+    },
+    title: {
+        fontSize: 50,
+        textAlign: "center",
+        marginTop: 100,
+    }
 });
