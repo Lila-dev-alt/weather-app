@@ -38,15 +38,19 @@ export default function App() {
     //weather.description
 
 //console.log(data.sys.country);
-    return ( <
-        View style = { styles.container } >
-            <Text>Météo</Text>
-            <StatusBar style = "auto" />
-            <ShowMeteo country={data && data.country} temp={data.main && data.main.temp} tempMin={data.main && data.main.temp_min} tempMax={data.main && data.main.temp_max} humidity={data.main && data.main.humidity}
-            city={data && data.name} img={'https://openweathermap.org/img/wn/10d@2x.png'}/>
-        </View>
+    if (data && data.main && data.weather) {
+        let imgUrl = 'https://openweathermap.org/img/wn/' + data.weather[0].icon + '.png';
+        console.log(imgUrl);
+        return ( <
+                View style = { styles.container } >
+                <Text>Météo</Text>
+                <StatusBar style = "auto" />
+                <ShowMeteo country={data && data.country} temp={data.main && data.main.temp} tempMin={data.main && data.main.temp_min} tempMax={data.main && data.main.temp_max} humidity={data.main && data.main.humidity}
+                           city={data && data.name} img={ imgUrl}/>
+            </View>
+        );
+    }
 
-    );
 }
 
 const styles = StyleSheet.create({
