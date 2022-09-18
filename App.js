@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, ImageBackground } from 'react-native';
 import * as Location from 'expo-location';
 import {useEffect} from "react";
 import {useState} from "react";
@@ -7,9 +7,13 @@ import ShowMeteo from "./ShowMeteo";
 
 
 export default function App() {
-    const [latitude, setLatitude] = useState(null);
-    const [longitude, setLongitude] = useState(null);
+    const [latitude, setLatitude] = useState({});
+    const [longitude, setLongitude] = useState({});
     const [data, setData] = useState({});
+    const img = require('./assets/pexels-eberhard-grossgasteiger-2310713.jpg');
+    let url = 'https://api.openweathermap.org/data/2.5/weather?';
+    // console.log(url);
+
     useEffect(() => {
         (async () => {
             let { status } = await Location.requestForegroundPermissionsAsync();
@@ -18,29 +22,28 @@ export default function App() {
                 return;
             }
             let location = await Location.getCurrentPositionAsync({});
-            setLatitude(location.coords.latitude);
-            setLongitude(location.coords.longitude);
-        })();
-
+            // console.log('1 location', location);
+            url += 'lat=' + location.coords.latitude + '&lon=' + location.coords.longitude  + '&appid=' + 'cb9f9f5777284842a8f5e0a78945b7ad' + '&units=metric'
+            fetch(url)
+                .then(response => {
+                    return response.json();
+                })
+                .then(data => {
+                    setData(data);
+                });
+        }
+        )();
     }, []);
-
-    const url = 'https://api.openweathermap.org/data/2.5/weather?lat=' + latitude + '&lon=' + longitude  + '&appid=' + 'cb9f9f5777284842a8f5e0a78945b7ad' + '&units=metric';
-     fetch(url).then(response => {
-        return response.json();
-     }).then(data => {
-         console.log(data);
-         return setData(data);
-    });
 //country temp humidity  temp_min temp_max
     //weather.description
 
+//console.log(data.sys.country);
     return ( <
         View style = { styles.container } >
-        <Text>Météo</Text>
+            <Text>Météo</Text>
             <StatusBar style = "auto" />
-
-         <ShowMeteo country={data.country} temp={data.temp} tempMin={data.temp_min} tempMax={data.tempMax} humidity={data.humidity}
-      city={data.name}/>
+            <ShowMeteo country={data && data.country} temp={data.main && data.main.temp} tempMin={data.main && data.main.temp_min} tempMax={data.main && data.main.temp_max} humidity={data.main && data.main.humidity}
+            city={data && data.name} img={'https://openweathermap.org/img/wn/10d@2x.png'}/>
         </View>
 
     );
