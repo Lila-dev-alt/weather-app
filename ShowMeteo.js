@@ -1,7 +1,7 @@
 import React from 'react';
 import {Text, TextInput, View, Image, StyleSheet} from 'react-native';
 
-function ShowMeteo({
+function ShowMeteo ({
    temp,
    tempMax,
    tempMin,
@@ -11,14 +11,17 @@ function ShowMeteo({
     weatherDescription,
    img
 }) {
+    function roundTemperature(temp) {
+        return Math.round(temp * 10) / 10 ;
+    }
 
     return (
         <View style={styles.container}>
         <View style={ styles.weather }>
                 <Text style={ styles.title }>{city}, {country}</Text>
-                <Text style={ styles.textTemp }>{temp}°C</Text>
-                <Text style={ styles.text }>Température minimum: {tempMin} °C</Text>
-                <Text style={ styles.text }>Température maximum: {tempMax} °C </Text>
+                <Text style={ styles.textTemp }>{roundTemperature(temp)}C</Text>
+                <Text style={ styles.text }>Température minimum: {roundTemperature(tempMin)} °C</Text>
+                <Text style={ styles.text }>Température maximum: {roundTemperature(tempMax)} °C </Text>
                 <Text style={ styles.text }> Humidité: {humidity} %</Text>
                 <View style={styles.imageContainer}>
                     <Image style={styles.imageDesign} source={{
