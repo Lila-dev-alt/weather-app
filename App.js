@@ -11,9 +11,9 @@ export default function App() {
     const [latitude, setLatitude] = useState({});
     const [longitude, setLongitude] = useState({});
     const [data, setData] = useState({});
+    const [loading, setLoading] = useState(true);
     const img = require('./assets/pexels-eberhard-grossgasteiger-2310713.jpg');
     let url = 'https://api.openweathermap.org/data/2.5/weather?';
-    // console.log(url);
 
     useEffect(() => {
         (async () => {
@@ -32,13 +32,12 @@ export default function App() {
                 .then(data => {
                     setData(data);
                 });
+                setLoading(false);
         }
         )();
     }, []);
 //country temp humidity  temp_min temp_max
     //weather.description
-
-//console.log(data.sys.country);
     if (data && data.main && data.weather && data.sys) {
         let imgUrl = "https://openweathermap.org/img/wn/" + data.weather[0].icon + ".png";
         return ( <View style = { styles.container } >
@@ -56,6 +55,7 @@ export default function App() {
             <View style = { styles.container } >
             <ImageBackground source={img} style = { styles.imagebackground } >
                 <Text style={ styles.title}>Météo</Text>
+                <Text style = { styles.loader }> Loading...</Text>
             </ImageBackground>
         </View>
         );
@@ -76,5 +76,9 @@ const styles = StyleSheet.create({
         fontSize: 20,
         textAlign: "center",
         marginTop: 100,
+    },
+    loader: {
+        fontSize: 20,
+        textAlign: "center",
     }
 });
