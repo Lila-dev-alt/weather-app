@@ -57,7 +57,7 @@ styles = StyleSheet.create({
         fontWeight: '300',
     },
     textTemp: {
-        fontSize: 70,
+        fontSize: 80,
         fontWeight: '400',
         marginTop: 5,
         color: 'white',
@@ -66,6 +66,7 @@ styles = StyleSheet.create({
     text: {
         fontSize: 20,
         fontWeight: '200',
+        marginTop: 10,
     },
     imageDesign: {
         height: 120,

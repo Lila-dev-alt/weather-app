@@ -1,5 +1,5 @@
 import React from 'react';
-import {Image, Text, View} from "react-native";
+import {Image, StyleSheet, Text, View} from "react-native";
 import {useEffect} from "react";
 import {useState} from "react";
 import moment from 'moment';
@@ -22,15 +22,24 @@ function Datetime ({}) {
         };
     }, []);
     return (
-       <View>
+       <View style={styles.container}>
            <View>
-               <Text>
+               <Text style={styles.text}>
                    {date}
                </Text>
-               <Text> {time}</Text>
+               <Text style={styles.text}> {time}</Text>
            </View>
        </View>
     );
 }
+
+const styles = StyleSheet.create({
+    text: {
+        textAlign: "center",
+        fontWeight: '600',
+        fontSize: 40,
+
+    }
+});
 
 export default Datetime;
