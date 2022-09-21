@@ -19,7 +19,7 @@ function ShowMeteo ({
         <View style={styles.container}>
         <View style={ styles.weather }>
                 <Text style={ styles.title }>{city}, {country}</Text>
-                <Text style={ styles.textTemp }>{roundTemperature(temp)}C</Text>
+                <Text style={ styles.textTemp }>{roundTemperature(temp)} °C</Text>
                 <Text style={ styles.text }>Température minimum: {roundTemperature(tempMin)} °C</Text>
                 <Text style={ styles.text }>Température maximum: {roundTemperature(tempMax)} °C </Text>
                 <Text style={ styles.text }> Humidité: {humidity} %</Text>
