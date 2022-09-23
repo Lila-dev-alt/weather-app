@@ -1,6 +1,5 @@
 import React from 'react';
 import {Image, StyleSheet, Text, View} from "react-native";
-import {useEffect} from "react";
 import {useState} from "react";
 import moment from 'moment';
 

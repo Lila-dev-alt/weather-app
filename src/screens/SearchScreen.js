@@ -1,14 +1,11 @@
 import * as React from 'react';
-import {ImageBackground, Text, View} from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {Image, ImageBackground, Text, View} from 'react-native';
 import {SafeAreaView, StyleSheet, TextInput, Button} from "react-native";
 
-function SearchScreen({navigation}) {
+function SearchScreen() {
     const [text, setText] = React.useState();
-    const [cities, setCities] = React.useState();
-    const img = require('../assets/pexels-eberhard-grossgasteiger-2310713.jpg');
+    const [data, setData] = React.useState();
+    const img = require('../../assets/pexels-eberhard-grossgasteiger-2310713.jpg');
     let url = "https://api.openweathermap.org/data/2.5/weather?q=";
 
 
@@ -20,11 +17,10 @@ function SearchScreen({navigation}) {
                 return response.json();
             })
             .then(data => {
-                setCities(data);
-                console.log(data);
-            });
+                setData(data);
+            })
+        ;
     }
-
 
     return (
         <View style={{flex: 1}}>
@@ -43,10 +39,20 @@ function SearchScreen({navigation}) {
                         title="save"
                         onPress={() => {
                             searchTown()
-                            navigation.navigate('Results')
                         }}
                     />
                 </SafeAreaView>
+
+                {data && (
+                <Text style={styles.answer1}>{data.name}</Text>
+                    )}
+                {data && (
+                    <Text style={styles.temp}>{data.main.temp}°C</Text>
+                    )}
+                {data&&(
+                    <Text>{data.weather[0].description}</Text>
+                    )}
+
             </ImageBackground>
         </View>
     );
@@ -77,5 +83,19 @@ const styles = StyleSheet.create({
         borderRadius: 4,
         elevation: 3,
         backgroundColor: 'black',
+    },
+    err: {
+        color: 'red',
+    },
+    answer1: {
+        color: "white",
+        fontSize: 20,
+        fontWeight: "300",
+    },
+    temp: {
+        color: "black",
+        fontSize: 30,
+        fontWeight: "500",
     }
+
 });

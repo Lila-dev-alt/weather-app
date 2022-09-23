@@ -3,10 +3,8 @@ import { StyleSheet, Text, View, ImageBackground } from 'react-native';
 import * as Location from 'expo-location';
 import {useEffect} from "react";
 import {useState} from "react";
-import ShowMeteo from "../ShowMeteo";
-import Datetime from "../Datetime";
-import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import ShowMeteo from "../components/ShowMeteo";
+import Datetime from "../components/Datetime";
 
 
 export default function HomeScreen() {
@@ -14,7 +12,7 @@ export default function HomeScreen() {
     const [longitude, setLongitude] = useState({});
     const [data, setData] = useState({});
     const [loading, setLoading] = useState(true);
-    const img = require('../assets/pexels-eberhard-grossgasteiger-2310713.jpg');
+    const img = require('../../assets/pexels-eberhard-grossgasteiger-2310713.jpg');
     let url = 'https://api.openweathermap.org/data/2.5/weather?';
 
     useEffect(() => {
