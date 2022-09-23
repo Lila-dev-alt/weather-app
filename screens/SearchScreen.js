@@ -1,26 +1,53 @@
 import * as React from 'react';
 import {ImageBackground, Text, View} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { SafeAreaView, StyleSheet, TextInput } from "react-native";
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {SafeAreaView, StyleSheet, TextInput, Button} from "react-native";
 
-function SearchScreen() {
-    const [text, onChangeText] = React.useState();
-    const [number, onChangeNumber] = React.useState(null);
+function SearchScreen({navigation}) {
+    const [text, setText] = React.useState();
+    const [cities, setCities] = React.useState();
     const img = require('../assets/pexels-eberhard-grossgasteiger-2310713.jpg');
+    let url = "https://api.openweathermap.org/data/2.5/weather?q=";
+
+
+    const searchTown = () => {
+        setText(text);
+        url += text + '&appid=' + 'cb9f9f5777284842a8f5e0a78945b7ad' + '&units=metric';
+        fetch(url)
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                setCities(data);
+                console.log(data);
+            });
+    }
+
+
     return (
-        <View style={{ flex: 1}}>
-            <ImageBackground source={img} style = { styles.imagebackground } >
-            <Text>Recherche</Text>
-            <SafeAreaView>
-                <TextInput
-                    style={styles.input}
-                    onChangeText={onChangeText}
-                    placeholder="Rechercher une ville"
-                    value={text}
-                />
-            </SafeAreaView>
-               </ImageBackground>
+        <View style={{flex: 1}}>
+            <ImageBackground source={img} style={styles.imagebackground}>
+                <Text>Rechercher une ville</Text>
+                <SafeAreaView>
+                    <TextInput
+                        style={styles.input}
+                        onChangeText={
+                            text => setText(text)
+                        }
+                        placeholder="Rechercher une ville"
+                        value={text}
+                    />
+                    <Button
+                        title="save"
+                        onPress={() => {
+                            searchTown()
+                            navigation.navigate('Results')
+                        }}
+                    />
+                </SafeAreaView>
+            </ImageBackground>
         </View>
     );
 }
@@ -42,4 +69,13 @@ const styles = StyleSheet.create({
         flexDirection: "column",
         alignItems: "center",
     },
+    button: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 12,
+        paddingHorizontal: 32,
+        borderRadius: 4,
+        elevation: 3,
+        backgroundColor: 'black',
+    }
 });
